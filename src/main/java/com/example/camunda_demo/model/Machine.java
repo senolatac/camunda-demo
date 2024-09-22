@@ -10,5 +10,7 @@ public class Machine {
 
     private boolean startImmediately;
 
+    private boolean incident;
+
     private Long delayMinutes;
 }

@@ -12,11 +12,18 @@ public class MachineService {
             Machine.builder()
                     .key("machine-business-key-1")
                     .startImmediately(true)
+                    .incident(false)
                     .build(),
             Machine.builder()
                     .key("machine-business-key-2")
                     .startImmediately(false)
+                    .incident(false)
                     .delayMinutes(2L)
+                    .build(),
+            Machine.builder()
+                    .key("machine-business-key-3")
+                    .startImmediately(true)
+                    .incident(true)
                     .build()
     );
 

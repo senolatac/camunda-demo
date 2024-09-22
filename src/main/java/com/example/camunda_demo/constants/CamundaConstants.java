@@ -10,6 +10,7 @@ public final class CamundaConstants {
     public static final String FINAL_LOGGER_DELEGATE = "finalLoggerDelegate";
     public static final String START_MACHINE_DELEGATE = "startMachineDelegate";
     public static final String START_MACHINE_NOW_VARIABLE = "startMachineNow";
+    public static final String INCIDENT_ID_VARIABLE = "incidentId";
     public static final String START_MACHINE_AT_VARIABLE = "startMachineAt";
     public static final String MANAGER_APPROVAL_VARIABLE = "managerApprovalField";
     public static final String WEBHOOK_RECEIVER_VARIABLE = "receivedWebhookField";

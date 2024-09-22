@@ -11,7 +11,7 @@ public class MachineHistoryHandler implements HistoryEventHandler {
 
     @Override
     public void handleEvent(HistoryEvent historyEvent) {
-        log.info("Event received type: {} id: {}", historyEvent.getEventType(), historyEvent.getId());
+        log.warn("Event received type: {} id: {}", historyEvent.getEventType(), historyEvent.getId());
     }
 
     @Override

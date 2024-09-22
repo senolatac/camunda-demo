@@ -31,7 +31,9 @@
         <bpmn:timeDate xsi:type="bpmn:tFormalExpression">#{startMachineAt}</bpmn:timeDate>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
-    <bpmn:sequenceFlow id="start-machine-with-delay-sequence-flow" name="Start With Delay" sourceRef="start-machine-now-exclusive-gateway" targetRef="start-machine-at-catch-event" />
+    <bpmn:sequenceFlow id="start-machine-with-delay-sequence-flow" name="Start With Delay" sourceRef="start-machine-now-exclusive-gateway" targetRef="start-machine-at-catch-event">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{startMachineNow == false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0keagf3" sourceRef="start-machine-at-catch-event" targetRef="start-machine-service-task" />
     <bpmn:sequenceFlow id="flow_from_start_to_manager" sourceRef="start-machine-service-task" targetRef="manager-approval-user-task" />
     <bpmn:userTask id="manager-approval-user-task" name="Manager Approval">
@@ -64,7 +66,7 @@
       <bpmn:outgoing>logger-to-end-flow</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="logger-to-end-flow" sourceRef="final-logger-service-task" targetRef="end-event" />
-    <bpmn:boundaryEvent id="external-webhook-error-event" attachedToRef="external-webhook-receive-task">
+    <bpmn:boundaryEvent id="external-webhook-error-event" attachedToRef="start-machine-service-task">
       <bpmn:outgoing>Flow_1iemw4m</bpmn:outgoing>
       <bpmn:errorEventDefinition id="ErrorEventDefinition_1srizf2" />
     </bpmn:boundaryEvent>
@@ -119,20 +121,20 @@
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1ktfsqg_di" bpmnElement="final-logger-service-task">
-        <dc:Bounds x="840" y="460" width="100" height="80" />
+        <dc:Bounds x="840" y="510" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1pstude_di" bpmnElement="end-event">
-        <dc:Bounds x="1012" y="482" width="36" height="36" />
+        <dc:Bounds x="1012" y="532" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1020" y="525" width="20" height="14" />
+          <dc:Bounds x="1020" y="575" width="20" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_14b9x70_di" bpmnElement="error-audit-user-task">
-        <dc:Bounds x="660" y="340" width="100" height="80" />
+        <dc:Bounds x="680" y="400" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_120u000_di" bpmnElement="external-webhook-error-event">
-        <dc:Bounds x="822" y="362" width="36" height="36" />
+        <dc:Bounds x="612" y="252" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0r1y1nz_di" bpmnElement="Flow_0r1y1nz">
         <di:waypoint x="215" y="337" />
@@ -163,15 +165,6 @@
         <di:waypoint x="580" y="440" />
         <di:waypoint x="580" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0rq4wyj_di" bpmnElement="flow_rejected_by_manager">
-        <di:waypoint x="890" y="205" />
-        <di:waypoint x="890" y="100" />
-        <di:waypoint x="580" y="100" />
-        <di:waypoint x="580" y="190" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="713" y="82" width="44" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1ysvi5i_di" bpmnElement="flow_from_start_to_manager">
         <di:waypoint x="630" y="230" />
         <di:waypoint x="690" y="230" />
@@ -183,6 +176,15 @@
           <dc:Bounds x="805" y="102" width="47" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rq4wyj_di" bpmnElement="flow_rejected_by_manager">
+        <di:waypoint x="890" y="205" />
+        <di:waypoint x="890" y="100" />
+        <di:waypoint x="580" y="100" />
+        <di:waypoint x="580" y="190" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="713" y="82" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1qqxh4w_di" bpmnElement="manager_approved_seq_flow">
         <di:waypoint x="890" y="255" />
         <di:waypoint x="890" y="330" />
@@ -192,20 +194,21 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_00h7dvg_di" bpmnElement="Flow_00h7dvg">
         <di:waypoint x="890" y="410" />
-        <di:waypoint x="890" y="460" />
+        <di:waypoint x="890" y="510" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1hnxhhc_di" bpmnElement="logger-to-end-flow">
-        <di:waypoint x="940" y="500" />
-        <di:waypoint x="1012" y="500" />
+        <di:waypoint x="940" y="550" />
+        <di:waypoint x="1012" y="550" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1iemw4m_di" bpmnElement="Flow_1iemw4m">
-        <di:waypoint x="822" y="380" />
-        <di:waypoint x="760" y="380" />
+        <di:waypoint x="630" y="288" />
+        <di:waypoint x="630" y="440" />
+        <di:waypoint x="680" y="440" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0f4u550_di" bpmnElement="error-audit-tofinal-logger-flow">
-        <di:waypoint x="710" y="420" />
-        <di:waypoint x="710" y="500" />
-        <di:waypoint x="840" y="500" />
+        <di:waypoint x="730" y="480" />
+        <di:waypoint x="730" y="560" />
+        <di:waypoint x="840" y="560" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
